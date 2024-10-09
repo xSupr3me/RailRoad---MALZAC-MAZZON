@@ -27,7 +27,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `email`
   - `pseudo`
   - `mot de passe`
-  - `rôle`
+  - `rôle` (user, employee, admin)
 - Restrictions :
   - Les utilisateurs normaux ne peuvent pas lire les informations d'autres utilisateurs, mais un employé peut.
   - La création d'un nouvel utilisateur est possible sans être connecté.
