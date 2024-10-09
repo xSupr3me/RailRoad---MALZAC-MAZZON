@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import { createTestScheduler } from "jest";
+import bcrypt from "bcrypt";
+// import { createTestScheduler } from "jest";
 
 //Schéma utilisateur
 const userSchema = new mongoose.Schema({

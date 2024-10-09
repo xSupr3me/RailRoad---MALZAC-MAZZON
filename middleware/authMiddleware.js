@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { secret } from '../controller/userController.js';
+import { secret } from '../controllers/userController.js';
 
 export const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
