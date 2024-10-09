@@ -1,0 +1,31 @@
+{
+  "name": "jsproject",
+  "version": "1.0.0",
+  "description": "MALZAC & MAZZON JSProject",
+  "main": "server-express.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "main"
+  },
+  "author": "MALZAC & MAZZON",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": []
+}
