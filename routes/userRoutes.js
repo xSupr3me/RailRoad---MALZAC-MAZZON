@@ -1,12 +1,14 @@
 import express from "express";
 import { registerUser, loginUser, getUserProfile, updateUserProfile, deleteUser } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
+import { validateSchemaMiddleware } from "../middleware/validateSchemaMiddleware.js";
+import { registerSchema } from "../schemas/registerSchema.js";
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register",validateSchemaMiddleware(registerSchema) ,registerUser);
 
-router.post("/login", loginUser);
+router.post("/login",loginUser);
 
 router.use(authMiddleware);
 
