@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
+import trainRoutes from "./routes/trainRoutes.js";
+import trainstationRoutes from "./routes/trainstationRoutes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 
 const app = express();
@@ -22,8 +24,9 @@ mongoose.connect(dbUrl)
 //Routes utilisateurs à ajouter ici
 
 app.use("/users", userRoutes);
+app.use("/trains", trainRoutes);
+app.use("/trainstations", trainstationRoutes);
 
-app.use(authMiddleware)
 
 //Reste des routes à ajouter ici
 
