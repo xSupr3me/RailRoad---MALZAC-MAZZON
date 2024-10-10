@@ -14,7 +14,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 
 **Note** : Ce projet concerne uniquement la création de l'API ; aucun frontend n'est requis.
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 🎯 Missions du Projet
 
@@ -27,7 +27,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `email`
   - `pseudo`
   - `mot de passe`
-  - `rôle`
+  - `rôle` (user, employee, admin)
 - Restrictions :
   - Les utilisateurs normaux ne peuvent pas lire les informations d'autres utilisateurs, mais un employé peut.
   - La création d'un nouvel utilisateur est possible sans être connecté.
@@ -63,7 +63,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 - Implémenter une validation robuste pour les entrées utilisateur en utilisant une solution comme **ZOD**.
 - Utiliser les codes HTTP appropriés lors de la réponse à l'utilisateur.
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 📝 Détails Techniques
 
@@ -81,7 +81,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 - Utiliser [editor.swagger.io](https://editor.swagger.io) pour simplifier la rédaction.
 - Définir les points de terminaison avec leurs valeurs d'entrée (URL, corps de la requête, etc.) et les réponses possibles (succès, erreur).
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 📦 Livrables
 Vous devez soumettre une archive contenant :
@@ -89,15 +89,18 @@ Vous devez soumettre une archive contenant :
 - La documentation de l'API (Swagger/OpenAPI ou autre standard précisé).
 - Un fichier **README** avec les étapes d'installation et pour pouvoir exécuter votre projet.
 
----
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 📊 Critères d'évaluation
 - Architecture globale du projet : 4 points
+
 - Authentification : 3 points
+
 - Fonctionnalités liées aux trains :
   - Opérations par un administrateur : 4 points
   - Recherche d’une gare ou d’un train : 4 points
   - Vérification de la validité d’un billet : 3 points
+
 - Documentation et tests : 2 points
 
 **Remarque** : Ne pas fournir de documentation ou de tests de base peut entraîner des pénalités (jusqu’à -2 points).
