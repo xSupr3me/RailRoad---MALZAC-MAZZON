@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
-import { authMiddleware } from "./middleware/authMiddleware.js";
+import { authMiddleware } from "./middlewares/authMiddleware.js";
 
 const app = express();
 
