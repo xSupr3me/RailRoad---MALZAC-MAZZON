@@ -1,5 +1,5 @@
 import {Trainstation} from "../models/trainstationModel.js";
-import { resizeImage } from "../resizeImage.js";
+import { resizeImage } from "../utils/resizeImage.js";
 import path from 'path';
 
 export const addTrainstation = async (req, res) => {

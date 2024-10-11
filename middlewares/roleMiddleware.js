@@ -1,10 +1,7 @@
 export const roleMiddleware = (requiredRoles) => {
     return (req, res, next) => {
         try {
-            // Vérifier si l'ID de la requête est présent
-            if (!req.params.id) {
-                return res.status(400).json({ message: "Bad Request. User ID is required." });
-            }
+
 
             // Si l'utilisateur tente de modifier ou supprimer son propre compte
             if (req.user._id.toString() === req.params.id) {
