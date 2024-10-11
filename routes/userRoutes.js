@@ -13,12 +13,12 @@ router.post("/login",loginUser);
 
 router.use(authMiddleware);
 
-router.get("/all", getAllUsers);
+router.get("/all",roleMiddleware(['admin', 'employee']), getAllUsers);
 
-router.get("/:id",   getUserProfile);
+router.get("/:id",getUserProfile);
 
-router.put("/:id", updateUserProfile);
+router.put("/:id",roleMiddleware(['admin']), updateUserProfile);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id",roleMiddleware(['admin']), deleteUser);
 
 export default router;

@@ -69,12 +69,8 @@ export const getUserProfile = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        if (req.user.role === 'admin' || req.user.role === 'employee') {
-            const users = await User.find({});
-            res.status(200).json(users);
-        } else {
-            return res.status(403).json({ message: "Access denied. Only admins and employees can view all users." });
-        }
+        const users = await User.find({});
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -82,16 +78,11 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
     try {
-        // Vérification si l'utilisateur modifie ses propres infos ou s'il est admin
-        if (req.user._id.toString() === req.params.id || req.user.role === 'admin') {
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            if (!updatedUser) {
-                return res.status(404).json({ message: "User not found" });
-            }
-            return res.status(200).json(updatedUser);
-        } else {
-            return res.status(403).json({ message: "You can only update your own profile or you need to be an admin." });
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
         }
+        return res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -99,16 +90,11 @@ export const updateUserProfile = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     try {
-        // Vérification si l'utilisateur supprime son propre compte ou s'il est administrateur
-        if (req.user._id.toString() === req.params.id || req.user.role === 'admin') {
-            const deletedUser = await User.findByIdAndDelete(req.params.id);
-            if (!deletedUser) {
-                return res.status(404).json({ message: "User not found" });
-            }
-            return res.status(200).json({ message: "User deleted successfully" });
-        } else {
-            return res.status(403).json({ message: "You can only delete your own account or you need to be an admin." });
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
         }
+        return res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
