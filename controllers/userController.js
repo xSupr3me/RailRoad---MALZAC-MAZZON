@@ -67,6 +67,19 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
+export const getAllUsers = async (req, res) => {
+    try {
+        if (req.user.role === 'admin' || req.user.role === 'employee') {
+            const users = await User.find({});
+            res.status(200).json(users);
+        } else {
+            return res.status(403).json({ message: "Access denied. Only admins and employees can view all users." });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const updateUserProfile = async (req, res) => {
     try {
         // Vérification si l'utilisateur modifie ses propres infos ou s'il est admin
@@ -87,7 +100,7 @@ export const updateUserProfile = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         // Vérification si l'utilisateur supprime son propre compte ou s'il est administrateur
-        if (req.user._id === req.params.id || req.user.role === 'admin') {
+        if (req.user._id.toString() === req.params.id || req.user.role === 'admin') {
             const deletedUser = await User.findByIdAndDelete(req.params.id);
             if (!deletedUser) {
                 return res.status(404).json({ message: "User not found" });
@@ -100,4 +113,3 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
