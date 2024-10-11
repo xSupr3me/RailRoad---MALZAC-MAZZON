@@ -11,70 +11,77 @@ const isCurrentUser = (req, userId) => {
 	return req.user._id === stringUserId;
 };
 
-//Enregistrer un nouvel utilisateur
 export const registerUser = async (req, res) => {
     const { username, email, password, role } = req.body;
 
     try {
-        if (await User.findOne({ email })) {
-            return res.status(400).json({ message: 'User already exists' });
+        // Vérifier si l'email existe déjà
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User with this email already exists' });
         }
-        const user = new User({
-            username, email, password, role: role || 'user' //Si pas de rôle spécifié, le rôle par défaut est 'user'
-        });
 
+        // Créer un nouvel utilisateur
+        const user = new User({ username, email, password, role: role || 'user' });
         await user.save();
 
         const token = jwt.sign({ userId: user._id, role: user.role }, secret, { expiresIn: '1h' });
-
         res.status(201).json({ token });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Error registering user:", error);
+        res.status(500).json({ message: 'An error occurred while registering the user. Please try again.' });
     }
 };
 
-//Connexion utilisateur
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        //Génération du token JWT
         const token = jwt.sign({ _id: user._id, email: user.email, role: user.role }, secret, { expiresIn: '1h' });
-
-        // Retourner le token au client
         res.status(200).json({ token });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Error during login:", error);
+        res.status(500).json({ message: 'An error occurred during login. Please try again.' });
     }
 };
 
 export const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (error.kind === 'ObjectId') {
+            return res.status(400).json({ message: "Invalid user ID format" });
+        }
+        console.error("Error fetching user profile:", error);
+        res.status(500).json({ message: 'An error occurred while retrieving the user profile.' });
     }
 };
+
 
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find({});
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: 'An error occurred while retrieving users.' });
     }
 };
+
 
 export const updateUserProfile = async (req, res) => {
     try {
@@ -82,11 +89,16 @@ export const updateUserProfile = async (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
-        return res.status(200).json(updatedUser);
+        res.status(200).json(updatedUser);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (error.kind === 'ObjectId') {
+            return res.status(400).json({ message: "Invalid user ID format" });
+        }
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ message: 'An error occurred while updating the user profile.' });
     }
 };
+
 
 export const deleteUser = async (req, res) => {
     try {
@@ -94,8 +106,12 @@ export const deleteUser = async (req, res) => {
         if (!deletedUser) {
             return res.status(404).json({ message: "User not found" });
         }
-        return res.status(200).json({ message: "User deleted successfully" });
+        res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (error.kind === 'ObjectId') {
+            return res.status(400).json({ message: "Invalid user ID format" });
+        }
+        console.error("Error deleting user:", error);
+        res.status(500).json({ message: 'An error occurred while deleting the user.' });
     }
 };
