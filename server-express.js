@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import trainRoutes from "./routes/trainRoutes.js";
 import trainstationRoutes from "./routes/trainstationRoutes.js";
-import { authMiddleware } from "./middlewares/authMiddleware.js";
 
 const app = express();
 

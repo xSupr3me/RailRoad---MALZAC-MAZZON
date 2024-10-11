@@ -56,6 +56,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `heure d'ouverture`
   - `heure de fermeture` -->
   - `image` (doit être redimensionnée à 200x200 pixels si le téléchargement est trop grand).
+  - quand delete gare delete train + billet des trains
 <!-- - Seul un administrateur peut créer, mettre à jour ou supprimer une gare (attention lors de la suppression d'une gare, il faut prendre en compte les trains associés). -->
 
 #### 1.5 Réservation et validation des billets
