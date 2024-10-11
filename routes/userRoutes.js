@@ -4,18 +4,19 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { validateSchemaMiddleware } from "../middlewares/validateSchemaMiddleware.js";
 import { registerSchema } from "../schemas/registerSchema.js";
 import { roleMiddleware } from "../middlewares/roleMiddleware.js";
+import { loginSchema } from "../schemas/loginSchema.js";
 
 const router = express.Router();
 
 router.post("/register",validateSchemaMiddleware(registerSchema) ,registerUser);
 
-router.post("/login",loginUser);
+router.post("/login",validateSchemaMiddleware(loginSchema),loginUser);
 
 router.use(authMiddleware);
 
 router.get("/all",roleMiddleware(['admin', 'employee']), getAllUsers);
 
-router.get("/:id",getUserProfile);
+router.get("/:id",roleMiddleware(['admin', 'employee']), getUserProfile);
 
 router.put("/:id",roleMiddleware(['admin']), updateUserProfile);
 

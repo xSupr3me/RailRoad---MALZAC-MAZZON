@@ -2,7 +2,6 @@ export const roleMiddleware = (requiredRoles) => {
     return (req, res, next) => {
         try {
 
-
             // Si l'utilisateur tente de modifier ou supprimer son propre compte
             if (req.user._id.toString() === req.params.id) {
                 return next();

@@ -20,7 +20,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 
 ### 1. Fonctionnalités principales
 
-#### 1.1 Gestion des utilisateurs
+<!-- #### 1.1 Gestion des utilisateurs
 - **Fonctionnalités CRUD** (Créer, Lire, Mettre à jour, Supprimer) pour les utilisateurs.
 - Les utilisateurs doivent avoir au moins les propriétés suivantes :
   - `id`
@@ -28,17 +28,17 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `pseudo`
   - `mot de passe`
   - `rôle` (user, employee, admin)
-- Restrictions :
-  - Les utilisateurs normaux ne peuvent pas lire les informations d'autres utilisateurs, mais un employé peut.
+- Restrictions : -->
+  <!-- - Les utilisateurs normaux ne peuvent pas lire les informations d'autres utilisateurs, mais un employé peut.
   - La création d'un nouvel utilisateur est possible sans être connecté.
-  - Chaque utilisateur peut seulement mettre à jour ou supprimer son propre compte (sauf si admin).
+  - Chaque utilisateur peut seulement mettre à jour ou supprimer son propre compte (sauf si admin). -->
 
-#### 1.2 Authentification
+<!-- #### 1.2 Authentification
 - Mettre en place une authentification (utilisation recommandée de JWT).
 - Tous les points de terminaison en lecture pour les données de train doivent être accessibles sans authentification.
-- Tous les points de terminaison d'écriture (POST, PUT, DELETE) nécessitent une authentification.
+- Tous les points de terminaison d'écriture (POST, PUT, DELETE) nécessitent une authentification. -->
 
-#### 1.3 Gestion des trains
+<!-- #### 1.3 Gestion des trains
 - Lister tous les trains avec la possibilité de trier par date, gare de départ, gare d'arrivée, avec une limite par défaut de 10 (modifiable via paramètre).
 - Fonctionnalités CRUD pour les trains, avec les propriétés suivantes :
   - `id`
@@ -46,17 +46,17 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `gare de départ`
   - `gare d'arrivée`
   - `heure de départ`
-- Seul un administrateur peut créer, mettre à jour ou supprimer un train.
+- Seul un administrateur peut créer, mettre à jour ou supprimer un train. -->
 
-#### 1.4 Gestion des gares
+<!-- #### 1.4 Gestion des gares
 - Lister toutes les gares et permettre le tri par nom.
 - Fonctionnalités CRUD pour les gares, avec les propriétés suivantes :
   - `id`
   - `nom`
   - `heure d'ouverture`
-  - `heure de fermeture`
+  - `heure de fermeture` -->
   - `image` (doit être redimensionnée à 200x200 pixels si le téléchargement est trop grand).
-- Seul un administrateur peut créer, mettre à jour ou supprimer une gare (attention lors de la suppression d'une gare, il faut prendre en compte les trains associés).
+<!-- - Seul un administrateur peut créer, mettre à jour ou supprimer une gare (attention lors de la suppression d'une gare, il faut prendre en compte les trains associés). -->
 
 #### 1.5 Réservation et validation des billets
 - Mettre en place un point de terminaison pour réserver un billet entre deux stations et valider cette réservation.
@@ -67,10 +67,10 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 
 ## 📝 Détails Techniques
 
-### 1. Authentification
+<!-- ### 1. Authentification
 - Pas besoin d'une solution OAuth complète, juste un moyen de générer un token.
 - Utilisation possible de **PassportJS** avec la stratégie **passport-local-mongoose**.
-- Pour tester un token JWT, vous pouvez utiliser [jwt.io](https://jwt.io).
+- Pour tester un token JWT, vous pouvez utiliser [jwt.io](https://jwt.io). -->
 
 ### 2. Validation des données
 - Utiliser **ZOD** pour la validation des données des utilisateurs.
