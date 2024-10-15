@@ -4,6 +4,7 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { roleMiddleware } from "../middlewares/roleMiddleware.js";
 import { validateSchemaMiddleware } from "../middlewares/validateSchemaMiddleware.js";
 import { trainSchema } from "../schemas/trainSchema.js";
+import { updatetrainSchema } from "../schemas/updatetrainSchema.js";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.use(roleMiddleware(['admin']))
 
 router.post("/", validateSchemaMiddleware(trainSchema), addTrain);
 
-router.put("/:id", updateTrain);
+router.put("/:id", validateSchemaMiddleware(updatetrainSchema), updateTrain);
 
 router.delete("/:id", deleteTrain);
 
