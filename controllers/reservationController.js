@@ -62,3 +62,21 @@ export const cancelReservation = async (req, res) => {
         res.status(500).json({ message: "Error cancelling reservation." });
     }
 };
+
+export const deleteReservation = async (req, res) => {
+    const { id } = req.params; // Récupération de l'ID de la réservation depuis les paramètres de la requête
+
+    try {
+        // Vérifier si la réservation existe et si l'utilisateur est le propriétaire
+        const reservation = await Reservation.findOneAndDelete({ _id: id, user: req.user._id });
+
+        if (!reservation) {
+            return res.status(404).json({ message: "Reservation not found or you do not have permission to delete this reservation." });
+        }
+
+        res.status(200).json({ message: "Reservation deleted successfully." });
+    } catch (error) {
+        console.error("Error deleting reservation:", error);
+        res.status(500).json({ message: "Error deleting reservation." });
+    }
+};
