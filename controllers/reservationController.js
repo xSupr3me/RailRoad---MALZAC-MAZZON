@@ -80,3 +80,19 @@ export const deleteReservation = async (req, res) => {
         res.status(500).json({ message: "Error deleting reservation." });
     }
 };
+
+export const getAllReservations = async (req, res) => {
+    try {
+        // Récupérer toutes les réservations
+        const reservations = await Reservation.find()
+
+        if (!reservations.length) {
+            return res.status(404).json({ message: "No reservations found." });
+        }
+
+        res.status(200).json({ message: "All reservations retrieved successfully.", reservations });
+    } catch (error) {
+        console.error("Error retrieving reservations:", error);
+        res.status(500).json({ message: "Error retrieving reservations." });
+    }
+};
