@@ -1,34 +1,8 @@
-import multer from "multer";
-import path from "path";
+import multer from 'multer';
 
-// Configuration de Multer pour l'upload d'images
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Dossier où enregistrer les images
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// Configuration de multer pour utiliser la mémoire
+const storage = multer.memoryStorage(); // On utilise la mémoire temporaire
+const upload = multer({ storage: storage });
 
-// Filtrer pour accepter uniquement les images
-const fileFilter = (req, file, cb) => {
-  const fileTypes = /jpeg|jpg|png/;
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = fileTypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb("Erreur : Seules les images sont acceptées (jpeg, jpg, png)");
-  }
-};
-
-// Limiter la taille des fichiers à 1 MB
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 }, // 1 MB
-  fileFilter: fileFilter,
-});
-
-export const uploadImage = upload.single("image");
+// Exportation du middleware
+export const uploadMiddleware = upload.single('image'); // Nom du champ dans le formulaire
