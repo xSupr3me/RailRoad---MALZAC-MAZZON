@@ -4,8 +4,6 @@ import { uploadMiddleware } from "../middlewares/multerMiddleware.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { roleMiddleware } from "../middlewares/roleMiddleware.js";
 import { validateSchemaMiddleware } from "../middlewares/validateSchemaMiddleware.js";
-import { uploadImage } from "../middlewares/multerMiddleware.js";
-import { trainstationSchema } from "../schemas/trainstationSchema.js";
 
 
 const router = express.Router();
