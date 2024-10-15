@@ -1,57 +1,109 @@
 import {Trainstation} from "../models/trainstationModel.js";
-import { resizeImage } from "../utils/resizeImage.js";
 import path from 'path';
+import multer from 'multer';
+import sharp from 'sharp';
+import fs from 'fs';
+
+// Configuration de multer pour stocker l'image en mémoire temporairement
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// Fonction pour redimensionner l'image
+export const resizeImage = async (inputPath, outputPath, width, height) => {
+  try {
+      // Vérifie si le fichier existe avant de le redimensionner
+      if (!fs.existsSync(inputPath)) {
+          throw new Error(`File not found at ${inputPath}`);
+      }
+      await sharp(inputPath)
+          .resize(width, height)
+          .toFile(outputPath);
+      console.log('Image resized successfully:', outputPath);
+  } catch (error) {
+      console.error('Error while resizing image:', error);
+      throw new Error('Invalid input');
+  }
+};
+
+// Fonction pour ajouter une gare avec une image redimensionnée
 
 export const addTrainstation = async (req, res) => {
-    try {
-        if (req.file) {
-            const imagePath = req.file.path;
-            const resizedImagePath = `uploads/resized-${req.file.filename}`;
+  try {
+      const { name, open_hour, close_hour } = req.body;
 
-            // Appeler la fonction pour redimensionner l'image
-            await resizeImage(imagePath, resizedImagePath, 200, 200);
+      // Vérification si l'image a été téléchargée
+      if (req.file) {
+          // Chemin de l'image redimensionnée
+          const resizedImagePath = path.resolve('uploads', `resized-${req.file.originalname}`);
 
-            // Créer la gare avec l'image redimensionnée
-            const trainstation = await Trainstation.create({
-                ...req.body,
-                image: resizedImagePath
-            });
+          // Utilisation de sharp pour redimensionner l'image à partir du buffer
+          await sharp(req.file.buffer)
+              .resize(200, 200)
+              .toFile(resizedImagePath);
 
-            res.status(201).json(trainstation);
-        } else {
-            res.status(400).json({ message: 'Image is required' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+          console.log('Image resized successfully to:', resizedImagePath);
+
+          // Créer une nouvelle gare
+          const trainstation = new Trainstation({
+              name,
+              open_hour,
+              close_hour,
+              image: resizedImagePath  // Ajouter le chemin de l'image redimensionnée
+          });
+
+          await trainstation.save();
+
+          res.status(201).json({ message: 'Trainstation added successfully', trainstation });
+      } else {
+          res.status(400).json({ message: 'Image file is required' });
+      }
+
+  } catch (error) {
+      console.error('Error while adding trainstation:', error);
+      res.status(500).json({ message: error.message });
+  }
 };
 
 export const updateTrainstation = async (req, res) => {
-    try {
-        const trainstationId = req.params.id;
-        const updatedData = { ...req.body };
+  try {
+      const { id } = req.params;
+      const trainstation = await Trainstation.findById(id);
 
-        if (req.file) {
-            const imagePath = req.file.path;
-            const resizedImagePath = `uploads/resized-${req.file.filename}`;
+      if (!trainstation) {
+          return res.status(404).json({ message: 'Trainstation not found' });
+      }
 
-            // Appeler la fonction pour redimensionner l'image
-            await resizeImage(imagePath, resizedImagePath, 200, 200);
+      // Vérifie si une nouvelle image a été uploadée
+      if (req.file) {
+          const resizedImagePath = path.resolve('uploads', `resized-${req.file.originalname}`);
 
-            // Mettre à jour le chemin de l'image redimensionnée
-            updatedData.image = resizedImagePath;
-        }
+          // Log du buffer et du chemin de l'image redimensionnée
 
-        const trainstation = await Trainstation.findByIdAndUpdate(trainstationId, updatedData, { new: true });
-        if (!trainstation) {
-            return res.status(404).json({ message: 'Trainstation not found' });
-        } else {
-            res.status(200).json(trainstation);
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+          // Utiliser le buffer pour redimensionner l'image avec sharp
+          await sharp(req.file.buffer)
+              .resize(200, 200)
+              .toFile(resizedImagePath);
+
+          console.log('Image resized successfully to:', resizedImagePath);
+
+          // Met à jour le champ image avec le nouveau chemin
+          trainstation.image = resizedImagePath;
+      }
+
+      trainstation.name = req.body.name || trainstation.name;
+      trainstation.open_hour = req.body.open_hour || trainstation.open_hour;
+      trainstation.close_hour = req.body.close_hour || trainstation.close_hour;
+
+      await trainstation.save();
+
+      res.status(200).json(trainstation);
+  } catch (error) {
+      console.error('Error while updating trainstation:', error);
+      res.status(500).json({ message: error.message });
+  }
 };
+
+
 export const getTrainstations = async (req, res) => {
     try {
         const trainstations = await Trainstation.find();

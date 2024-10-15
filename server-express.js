@@ -8,6 +8,7 @@ import { authMiddleware } from "./middlewares/authMiddleware.js";
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3001; // Utilise le port défini dans l'environnement, sinon 3000 par défaut
   const dbUrl = "mongodb+srv://mm63mm007:6n0HrE0tUapjcNq4@jsprojectmalzacmazzon.7cyqu.mongodb.net/JSProject";
