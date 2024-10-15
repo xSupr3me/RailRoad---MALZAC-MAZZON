@@ -1,25 +1,24 @@
 import { Reservation } from '../models/reservationModel.js';
 import { Train } from '../models/trainModel.js';
-import { Trainstation } from '../models/trainstationModel.js';
+console.log("Train model imported:", Train); // Cela devrait afficher la fonction de modèle si l'importation réussit
 
 export const createReservation = async (req, res) => {
     try {
-        const { train, departureStation, arrivalStation, departureTime } = req.body;
+        const { train } = req.body;
 
+        // Vérifier si l'ID du train est valide
         const trainExists = await Train.findById(train);
-        const departureExists = await Trainstation.findById(departureStation);
-        const arrivalExists = await Trainstation.findById(arrivalStation);
-
-        if (!trainExists || !departureExists || !arrivalExists) {
-            return res.status(400).json({ message: "Invalid train or station data." });
+        if (!trainExists) {
+            return res.status(400).json({ message: "Invalid train ID." });
         }
 
+        // Créer la réservation en récupérant les informations du train
         const reservation = new Reservation({
             user: req.user._id,
-            train,
-            departureStation,
-            arrivalStation,
-            departureTime,
+            train: trainExists._id,
+            departureStation: trainExists.start_station, // Gare de départ du modèle Train
+            arrivalStation: trainExists.end_station,    // Gare d'arrivée du modèle Train
+            departureTime: trainExists.time_of_departure, // Heure de départ du modèle Train
         });
 
         await reservation.save();
@@ -31,11 +30,17 @@ export const createReservation = async (req, res) => {
 
 export const getUserReservations = async (req, res) => {
     try {
+        // Récupérer toutes les réservations de l'utilisateur connecté
         const reservations = await Reservation.find({ user: req.user._id })
-            .populate('train departureStation arrivalStation');
-        res.status(200).json(reservations);
+
+        if (!reservations.length) {
+            return res.status(404).json({ message: "No reservations found for this user." });
+        }
+
+        res.status(200).json({ message: "Reservations retrieved successfully.", reservations });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching reservations." });
+        console.error("Error retrieving user reservations:", error);
+        res.status(500).json({ message: "Error retrieving user reservations." });
     }
 };
 

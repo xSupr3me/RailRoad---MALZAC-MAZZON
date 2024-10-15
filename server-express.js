@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import trainRoutes from "./routes/trainRoutes.js";
 import trainstationRoutes from "./routes/trainstationRoutes.js";
+import reservationRoutes from "./routes/reservationRoutes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ mongoose.connect(dbUrl)
 app.use("/users", userRoutes);
 app.use("/trains", trainRoutes);
 app.use("/trainstations", trainstationRoutes);
+app.use("/reservations", reservationRoutes);
 
 
 //Reste des routes à ajouter ici
