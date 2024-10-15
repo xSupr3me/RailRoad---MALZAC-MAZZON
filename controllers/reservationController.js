@@ -1,6 +1,5 @@
 import { Reservation } from '../models/reservationModel.js';
 import { Train } from '../models/trainModel.js';
-console.log("Train model imported:", Train); // Cela devrait afficher la fonction de modèle si l'importation réussit
 
 export const createReservation = async (req, res) => {
     try {
