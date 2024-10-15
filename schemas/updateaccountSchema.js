@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const updateSchema = z.object({
+export const updateaccountSchema = z.object({
     username: z.string().min(3, "Username must have at least 3 characters").optional(),
     email: z.string().email("Invalid email address").optional(),
     password: z.string()
