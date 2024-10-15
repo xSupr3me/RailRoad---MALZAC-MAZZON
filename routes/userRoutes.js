@@ -6,7 +6,7 @@ import { registerSchema } from "../schemas/registerSchema.js";
 import { roleMiddleware } from "../middlewares/roleMiddleware.js";
 import { loginSchema } from "../schemas/loginSchema.js";
 import { updateSchema } from "../schemas/updateSchema.js";
-// import { restrictRoleUpdate } from "../middlewares/restrictRoleMiddleware.js";
+import { restrictRoleMiddleware } from "../middlewares/restrictRoleMiddleware.js";
 
 const router = express.Router();
 
@@ -20,7 +20,8 @@ router.get("/all",roleMiddleware(['admin', 'employee']), getAllUsers);
 
 router.get("/:id",roleMiddleware(['admin', 'employee']), getUserProfile);
 
-router.put("/:id", roleMiddleware(['admin']), validateSchemaMiddleware(updateSchema), updateUserProfile);
+// router.put("/:id", roleMiddleware(['admin']), restrictRoleMiddleware(), validateSchemaMiddleware(updateSchema));
+router.put("/:id", restrictRoleMiddleware, validateSchemaMiddleware(updateSchema), updateUserProfile, roleMiddleware(['admin']));
 
 router.delete("/:id",roleMiddleware(['admin']), deleteUser);
 

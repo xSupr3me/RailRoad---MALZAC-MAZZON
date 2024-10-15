@@ -9,5 +9,4 @@ export const updateSchema = z.object({
         .regex(/[a-z]/, "Password must contain at least one lowercase letter")
         .regex(/[0-9]/, "Password must contain at least one number")
         .optional(),
-    role: z.enum(['user', 'admin']).optional() // On va gérer cela autrement
 });

@@ -85,19 +85,28 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const userId = req.params.id;
+
+        // Vérifier si le nouveau username existe déjà dans la base de données (et que ce n'est pas l'utilisateur actuel)
+        if (req.body.username) {
+            const existingUser = await User.findOne({ username: req.body.username });
+            if (existingUser && existingUser._id.toString() !== userId) {
+                return res.status(400).json({ message: 'Username already in use by another user.' });
+            }
+        }
+
+        // Mise à jour de l'utilisateur
+        const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
-        res.status(200).json(updatedUser);
+        return res.status(200).json(updatedUser);
     } catch (error) {
-        if (error.kind === 'ObjectId') {
-            return res.status(400).json({ message: "Invalid user ID format" });
-        }
         console.error("Error updating user profile:", error);
         res.status(500).json({ message: 'An error occurred while updating the user profile.' });
     }
 };
+
 
 
 export const deleteUser = async (req, res) => {
