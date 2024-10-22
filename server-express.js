@@ -36,3 +36,5 @@ app.use("/reservations", reservationRoutes);
 app.use((req, res, next) => {
     res.status(404).send("Not found");
 });
+
+export default app;
