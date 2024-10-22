@@ -1,4 +1,4 @@
-# RailRoad - Gestion des utilisateurs, trains, gares et réservations
+# **RailRoad - Gestion des utilisateurs, trains, gares et réservations**
 
 Ce projet est une API REST développée avec Node.js et Express, connectée à une base de données MongoDB. L'API permet de gérer des utilisateurs, des trains, des gares, ainsi que les réservations de trajets. Elle inclut l'authentification avec JWT, des middlewares pour la validation des schémas et la gestion des rôles d'utilisateur.
 
