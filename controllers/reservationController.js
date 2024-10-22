@@ -1,5 +1,6 @@
 import { Reservation } from '../models/reservationModel.js';
 import { Train } from '../models/trainModel.js';
+import mongoose from 'mongoose';
 
 export const createReservation = async (req, res) => {
     try {
@@ -49,11 +50,6 @@ export const cancelReservation = async (req, res) => {
         if (!reservation) {
             return res.status(404).json({ message: "Reservation not found." });
         }
-
-        if (reservation.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-            return res.status(403).json({ message: "You are not allowed to cancel this reservation." });
-        }
-
         reservation.status = 'cancelled';
         await reservation.save();
         res.status(200).json({ message: "Reservation cancelled successfully." });
@@ -93,5 +89,26 @@ export const getAllReservations = async (req, res) => {
     } catch (error) {
         console.error("Error retrieving reservations:", error);
         res.status(500).json({ message: "Error retrieving reservations." });
+    }
+};
+
+export const validateReservation = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid reservation ID." });
+        }
+
+        const reservation = await Reservation.findById(id);
+        if (!reservation) {
+            return res.status(404).json({ message: "Reservation not found." });
+        }
+
+        reservation.status = 'confirmed';
+        await reservation.save();
+        res.status(200).json({ message: "Reservation validated successfully." });
+    } catch (error) {
+        console.error(error); // Affiche l'erreur pour déboguer
+        res.status(500).json({ message: "Error validating reservation." });
     }
 };
