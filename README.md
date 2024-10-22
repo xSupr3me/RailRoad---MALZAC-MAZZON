@@ -96,6 +96,3 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - [MALZAC Mathis](https://github.com/xSupr3me)
 - [MAZZON Paul](https://github.com/paulmzzn)
 
-## Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
