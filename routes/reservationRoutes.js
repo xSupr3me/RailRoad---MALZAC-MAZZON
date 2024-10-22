@@ -11,6 +11,8 @@ router.post('/', roleMiddleware(['admin', 'employee']), createReservation);
 
 router.get('/', roleMiddleware(['admin', 'employee']), getUserReservations);
 
+router.get('/:id', roleMiddleware(['admin', 'employee']), getUserReservations);
+
 router.get('/all', roleMiddleware(['admin']), getAllReservations);
 
 router.delete('/:id', roleMiddleware(['admin', 'employee']), cancelReservation);

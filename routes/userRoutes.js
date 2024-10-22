@@ -21,8 +21,7 @@ router.get("/all",roleMiddleware(['admin', 'employee']), getAllUsers);
 
 router.get("/:id",roleMiddleware(['admin', 'employee']), getUserProfile);
 
-// router.put("/:id", roleMiddleware(['admin']), restrictRoleMiddleware(), validateSchemaMiddleware(updateSchema));
-router.put("/:id", restrictRoleMiddleware, validateSchemaMiddleware(updateaccountSchema), updateUserProfile, roleMiddleware(['admin']));
+router.put("/:id", roleMiddleware(['admin']), restrictRoleMiddleware, validateSchemaMiddleware(updateaccountSchema), updateUserProfile);
 
 router.delete("/:id",roleMiddleware(['admin']), deleteUser);
 

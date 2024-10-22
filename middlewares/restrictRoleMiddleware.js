@@ -9,7 +9,7 @@ export const restrictRoleMiddleware = (req, res, next) => {
 
     // Vérifie si le rôle est présent dans la requête et si l'utilisateur n'est pas admin
     if (req.body.role && req.user.role !== 'admin') {
-        return res.status(403).json({ message: "You are not allowed to change the role." });
+        return res.status(403).json({ message: "Access denied. You need one of the following roles: admin" });
     }
 
     next();

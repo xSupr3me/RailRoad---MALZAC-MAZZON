@@ -55,8 +55,8 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
   - `nom`
   - `heure d'ouverture`
   - `heure de fermeture` -->
-  - `image` (doit être redimensionnée à 200x200 pixels si le téléchargement est trop grand).
-  - quand delete gare delete train + billet des trains
+  <!-- - `image` (doit être redimensionnée à 200x200 pixels si le téléchargement est trop grand). -->
+  - quand delete gare delete train + billet des trains 
 <!-- - Seul un administrateur peut créer, mettre à jour ou supprimer une gare (attention lors de la suppression d'une gare, il faut prendre en compte les trains associés). -->
 
 #### 1.5 Réservation et validation des billets
@@ -74,7 +74,7 @@ L'API doit être conforme aux principes REST (méthodes, points de terminaison, 
 - Pour tester un token JWT, vous pouvez utiliser [jwt.io](https://jwt.io). -->
 
 ### 2. Validation des données
-- Utiliser **ZOD** pour la validation des données des utilisateurs.
+<!-- - Utiliser **ZOD** pour la validation des données des utilisateurs. -->
 - Créer des middlewares pour automatiser la validation sur certaines routes.
 
 ### 3. Documentation
