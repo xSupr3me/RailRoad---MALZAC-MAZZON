@@ -27,16 +27,22 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 1. Clonez ce dépôt
 
    ```bash
-   git clone https://github.com/votre-utilisateur/votre-repo.git
+   git clone https://github.com/xSupr3me/RailRoad
    ```
 
-2. Installez les dépendances
+2. Accédez au répertoire du projet
+
+   ```bash
+   cd RailRoad
+   ```
+
+3. Installez les dépendances
 
    ```bash
    npm install
    ```
 
-3. Démarrez le serveur
+4. Démarrez le serveur
 
    ```bash
    npm start
