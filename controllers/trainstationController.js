@@ -1,4 +1,6 @@
 import {Trainstation} from "../models/trainstationModel.js";
+import {Train} from "../models/trainModel.js";
+import {Reservation} from "../models/reservationModel.js";
 import path from 'path';
 import multer from 'multer';
 import sharp from 'sharp';
@@ -125,14 +127,43 @@ export const getTrainstationById = async (req, res) => {
 export const deleteTrainstation = async (req, res) => {
     try {
         const trainstationId = req.params.id;
-        const trainstation = await Trainstation.findByIdAndDelete(trainstationId);
+
+        // Trouver la gare à supprimer
+        const trainstation = await Trainstation.findById(trainstationId);
         if (!trainstation) {
             return res.status(404).json({ message: 'Trainstation not found' });
-        } else {
-            res.status(200).json({ message: 'Trainstation deleted' });
         }
-    }
-    catch (error) {
+
+        // Supprimer tous les trains associés à cette gare (en tant que départ ou arrivée)
+        const trains = await Train.find({
+            $or: [
+                { start_station: trainstationId }, // Si la gare est la gare de départ
+                { end_station: trainstationId }    // Si la gare est la gare d'arrivée
+            ]
+        });
+
+        // Récupérer tous les IDs des trains associés
+        const trainIds = trains.map(train => train._id);
+
+        // Supprimer les trains correspondants
+        await Train.deleteMany({
+            _id: { $in: trainIds }
+        });
+
+        // Supprimer toutes les réservations liées aux trains supprimés ou à la gare
+        await Reservation.deleteMany({
+            $or: [
+                { train: { $in: trainIds } },        // Toutes les réservations liées aux trains supprimés
+                { departureStation: trainstationId },// Si la gare est la gare de départ
+                { arrivalStation: trainstationId }   // Si la gare est la gare d'arrivée
+            ]
+        });
+
+        // Enfin, supprimer la gare elle-même
+        await trainstation.deleteOne();
+
+        res.status(200).json({ message: 'Trainstation, associated trains, and reservations deleted successfully' });
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
