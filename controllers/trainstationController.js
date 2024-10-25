@@ -118,11 +118,15 @@ export const getTrainstations = async (req, res) => {
 export const getTrainstationById = async (req, res) => {
     try {
         const trainstation = await Trainstation.findById(req.params.id);
+        if (!trainstation) {
+            return res.status(404).json({ message: 'Trainstation not found' });
+        }
         res.status(200).json(trainstation);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
+
 
 export const deleteTrainstation = async (req, res) => {
     try {

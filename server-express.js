@@ -11,14 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3001; // Utilise le port défini dans l'environnement, sinon 3000 par défaut
-  const dbUrl = "mongodb+srv://mm63mm007:6n0HrE0tUapjcNq4@jsprojectmalzacmazzon.7cyqu.mongodb.net/JSProject";
+const dbUrl = "mongodb+srv://mm63mm007:6n0HrE0tUapjcNq4@jsprojectmalzacmazzon.7cyqu.mongodb.net/JSProject";
 
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("Connected to database");
-        app.listen(PORT, () => 
-            console.log(`Server running at http://localhost:${PORT}/`)
-        );
     })
     .catch((error) => console.error('Database connection error:', error));
 
@@ -29,7 +26,6 @@ app.use("/trains", trainRoutes);
 app.use("/trainstations", trainstationRoutes);
 app.use("/reservations", reservationRoutes);
 
-
 //Reste des routes à ajouter ici
 
 // Gestion des erreurs 404
@@ -37,4 +33,8 @@ app.use((req, res, next) => {
     res.status(404).send("Not found");
 });
 
-export default app;
+const server = app.listen(PORT, () => 
+    console.log(`Server running at http://localhost:${PORT}/`)
+);
+
+export { app, server };

@@ -21,6 +21,9 @@ export const getTrains = async (req, res) => {
 export const getTrainById = async (req, res) => {
     try {
         const train = await Train.findById(req.params.id);
+        if (!train) {
+            return res.status(404).json({ message: 'Train not found' });
+        }
         res.status(200).json(train);
     } catch (error) {
         res.status(500).json({ message: error.message });

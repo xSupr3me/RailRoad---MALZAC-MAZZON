@@ -10,6 +10,8 @@ import { validateSchemaMiddleware } from '../middlewares/validateSchemaMiddlewar
 
 const router = express.Router();
 
+router.get('/all', getAllReservations);
+
 router.use(authMiddleware);
 
 router.post('/', roleMiddleware(['admin', 'employee']), validateSchemaMiddleware(reservationSchema), createReservation);
@@ -17,8 +19,6 @@ router.post('/', roleMiddleware(['admin', 'employee']), validateSchemaMiddleware
 router.get('/', roleMiddleware(['admin', 'employee']), getUserReservations);
 
 router.get('/:id', roleMiddleware(['admin', 'employee']), getUserReservations);
-
-router.get('/all', roleMiddleware(['admin']), getAllReservations);
 
 router.delete('/delete/:id', roleMiddleware(['admin']), deleteReservation);
 
