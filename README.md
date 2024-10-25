@@ -1,4 +1,4 @@
-# **RailRoad - Gestion des utilisateurs, trains, gares et réservations**
+# **🚂 RailRoad - Gestion des utilisateurs, trains, gares et réservations**
 
 Ce projet est une API REST développée avec Node.js et Express, connectée à une base de données MongoDB. L'API permet de gérer des utilisateurs, des trains, des gares, ainsi que les réservations de trajets. Elle inclut l'authentification avec JWT, des middlewares pour la validation des schémas et la gestion des rôles d'utilisateur.
 
@@ -22,7 +22,7 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - **Multer**: Gestion de l'upload de fichiers (images de gares)
 - **Zod**: Validation des schémas de données
 
-## Installation
+##⚙️ Installation
 
 1. Clonez ce dépôt
 
@@ -48,9 +48,9 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
    npm start
    ```
 
-## Endpoints principaux
+##📌 Endpoints principaux
 
-### Utilisateurs
+###👤 Utilisateurs
 
 - `POST /users/register`: Inscription d'un utilisateur
 - `POST /users/login`: Connexion d'un utilisateur
@@ -59,7 +59,7 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - `PUT /users/:id`: Mettre à jour un utilisateur (admin)
 - `DELETE /users/:id`: Supprimer un utilisateur (admin)
 
-### Trains
+###🚆 Trains
 
 - `GET /trains`: Récupérer tous les trains
 - `GET /trains/:id`: Récupérer un train par son ID
@@ -67,7 +67,7 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - `PUT /trains/:id`: Mettre à jour un train (admin)
 - `DELETE /trains/:id`: Supprimer un train (admin)
 
-### Gares
+###🏢 Gares
 
 - `GET /trainstations`: Récupérer toutes les gares
 - `GET /trainstations/:id`: Récupérer une gare par son ID
@@ -75,7 +75,7 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - `PUT /trainstations/:id`: Mettre à jour une gare (admin)
 - `DELETE /trainstations/:id`: Supprimer une gare (admin)
 
-### Réservations
+###🎟 Réservations
 
 - `POST /reservations`: Créer une réservation (admin/employé)
 - `GET /reservations`: Récupérer les réservations d'un utilisateur (admin/employé)
@@ -84,7 +84,7 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 - `PUT /reservations/validate/:id`: Valider une réservation (admin/employé)
 - `DELETE /reservations/delete/:id`: Supprimer une réservation (admin)
 
-## Middleware et Sécurité
+##🛡 Middleware et Sécurité
 
 - **authMiddleware**: Vérifie si l'utilisateur est authentifié grâce à un token JWT.
 - **roleMiddleware**: Restreint l'accès à certains endpoints en fonction du rôle de l'utilisateur (admin, employé).
