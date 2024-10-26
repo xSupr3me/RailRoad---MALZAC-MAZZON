@@ -9,14 +9,33 @@ export const addTrain = async (req, res) => {
     }
 };
 
+// export const getTrains = async (req, res) => {
+//     try {
+//         const trains = await Train.find();
+//         res.status(200).json(trains);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// }
+
 export const getTrains = async (req, res) => {
     try {
-        const trains = await Train.find();
+        const trains = await Train.find()
+            .populate({ path: 'start_station', select: 'name' })
+            .populate({ path: 'end_station', select: 'name' });
+
+        const sortBy = req.query.sortBy;
+        if (sortBy === 'start_station') {
+            trains.sort((a, b) => (a.start_station?.name || '').localeCompare(b.start_station?.name || ''));
+        } else if (sortBy === 'end_station') {
+            trains.sort((a, b) => (b.end_station?.name || '').localeCompare(a.end_station?.name || ''));
+        }
+
         res.status(200).json(trains);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 export const getTrainById = async (req, res) => {
     try {
