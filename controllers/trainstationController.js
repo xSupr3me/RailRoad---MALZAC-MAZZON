@@ -105,10 +105,22 @@ export const updateTrainstation = async (req, res) => {
   }
 };
 
-
 export const getTrainstations = async (req, res) => {
     try {
-        const trainstations = await Trainstation.find();
+        // Récupérer les paramètres limit et page de la requête
+        const limit = parseInt(req.query.limit) || 10; // Valeur par défaut à 10 si non spécifiée
+        const page = parseInt(req.query.page) || 1; // Valeur par défaut à 1 si non spécifiée
+
+        // Calculer combien de documents sauter en fonction de la page et du limit
+        const skip = (page - 1) * limit;
+
+        // Récupérer et trier les gares par nom en ordre alphabétique avec pagination
+        const trainstations = await Trainstation.find()
+            .sort({ name: 1 }) // Tri par nom en ordre alphabétique
+            .skip(skip)         // Sauter les résultats pour la pagination
+            .limit(limit);      // Limiter le nombre de résultats
+
+        // Envoyer la réponse JSON avec les gares récupérées
         res.status(200).json(trainstations);
     } catch (error) {
         res.status(500).json({ message: error.message });
