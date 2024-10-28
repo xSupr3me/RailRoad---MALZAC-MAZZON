@@ -26,12 +26,12 @@ Ce projet est une API REST développée avec Node.js et Express, connectée à u
 
 1. Clonez ce dépôt
     ```bash
-    git clone https://github.com/xSupr3me/RailRoad
+    git clone https://github.com/xSupr3me/RailRoad---MALZAC-MAZZON
     ```
 
 2. Accédez au répertoire du projet
     ```bash
-    cd RailRoad
+    cd RailRoad---MALZAC-MAZZON
     ```
 
 3. Installez les dépendances
