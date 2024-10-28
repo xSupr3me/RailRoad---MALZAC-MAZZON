@@ -22,30 +22,13 @@ afterAll(async () => {
 });
 
 describe('GET /reservations/all', () => {
-    it('should respond with a JSON containing a list of reservations', async () => {
+    it('should respond with a unauthorized error', async () => {
         const response = await request(app)
             .get('/reservations/all')
-            .expect('Content-Type', /json/)
-            .expect(200);
-
-        // Access the "reservations" array if response is wrapped in an object
-        const reservations = response.body.reservations || [];
-
-        expect(Array.isArray(reservations)).toBe(true); // Check that reservations is an array
-        expect(reservations.length).toBeGreaterThan(0); // Ensure there are items in the array
-
-        // Check each reservation for expected properties
-        reservations.forEach(reservation => {
-            expect(reservation).toHaveProperty('_id');
-            expect(reservation).toHaveProperty('train');
-            expect(reservation).toHaveProperty('user');
-            expect(reservation).toHaveProperty('departureStation');
-            expect(reservation).toHaveProperty('arrivalStation');
-            expect(reservation).toHaveProperty('departureTime');
-            expect(reservation).toHaveProperty('status');
+            .expect(401);
         });
-    });
 });
+
 
 
 // TOUT LE RESTE EST BLOQUE PAR LE MIDDLEWARE

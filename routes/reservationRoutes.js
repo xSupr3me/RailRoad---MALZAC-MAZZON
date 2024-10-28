@@ -26,7 +26,7 @@ router.delete('/delete/:id', roleMiddleware(['admin']), deleteReservation);
 
 router.put('/cancel/:id', roleMiddleware(['admin', 'employee']), validateSchemaMiddleware(updatereservationSchema), cancelReservation);
 
-router.put('/validate/:id', roleMiddleware(['admin', 'employee']), validateSchemaMiddleware(updatereservationSchema), validateReservation);
+router.put('/validate/:id', roleMiddleware(['admin', 'employee']), validateReservation);
 
 
 export default router;
